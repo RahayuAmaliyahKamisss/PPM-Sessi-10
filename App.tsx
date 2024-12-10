@@ -1,117 +1,130 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import type {PropsWithChildren} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
   View,
+  Text,
+  ScrollView,
+  Button,
+  Alert,
+  useWindowDimensions,
 } from 'react-native';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  const { width } = useWindowDimensions();
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+  // Mengatur style responsif berdasarkan ukuran layar
+  const isSmallDevice = width < 360;
+  const isLargeDevice = width > 720;
 
-function Section({children, title}: SectionProps): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  // Fungsi untuk menangani tombol
+  const handleButtonPress = () => {
+    Alert.alert('Informasi', 'Tombol berhasil ditekan!');
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Selamat Datang di Aplikasi</Text>
+        <Text style={styles.headerSubtitle}>
+          Pengalaman terbaik dimulai dari sini!
+        </Text>
+      </View>
+
+      {/* Konten utama */}
+      <View
+        style={[
+          styles.card,
+          isSmallDevice ? styles.smallCard : isLargeDevice ? styles.largeCard : {},
+        ]}
+      >
+        <Text style={styles.title}>Contoh Desain Responsif</Text>
+        <Text style={styles.text}>
+          Aplikasi ini menyesuaikan tata letaknya secara dinamis berdasarkan
+          ukuran layar perangkat.
+        </Text>
+      </View>
+
+      {/* Tombol */}
+      <View style={styles.buttonContainer}>
+        <Button title="Klik Disini" onPress={handleButtonPress} />
+      </View>
+
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.footerText}>Dibuat dengan oleh Ayu</Text>
+      </View>
+    </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    flexGrow: 1,
+    padding: 16,
+    backgroundColor: '#f5f5f5',
   },
-  sectionTitle: {
+  header: {
+    backgroundColor: '#4CAF50',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  headerTitle: {
     fontSize: 24,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    color: '#fff',
+    textAlign: 'center',
   },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
+  headerSubtitle: {
+    fontSize: 16,
+    color: '#fff',
+    textAlign: 'center',
   },
-  highlight: {
-    fontWeight: '700',
+  card: {
+    width: '80%',
+    padding: 16,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  smallCard: {
+    width: '90%',
+    padding: 12,
+  },
+  largeCard: {
+    width: '60%',
+    padding: 20,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center',
+  },
+  text: {
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  buttonContainer: {
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  footer: {
+    marginTop: 'auto',
+    padding: 10,
+    backgroundColor: '#333',
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#fff',
+    fontSize: 12,
   },
 });
 
